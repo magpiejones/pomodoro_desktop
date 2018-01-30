@@ -13,7 +13,7 @@ namespace Pomodoro.Server
     class Dispatcher : IDisposable
     {
         private HttpClient _client;
-        private readonly Uri _uri = new Uri("https://requestb.in/thygqyth");
+        private readonly Uri _uri = new Uri("http://127.0.0.1:5000/api/v1/user/4b3ca9d7-8d05-4fb6-b9af-57b3316deb37/pomodoros/new");
 
         public Dispatcher()
         {

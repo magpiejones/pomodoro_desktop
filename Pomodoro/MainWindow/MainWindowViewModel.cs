@@ -15,9 +15,12 @@ namespace Pomodoro.MainWindow
 {
     public class MainWindowViewModel : ViewModel
     {
+        private readonly Server.Dispatcher _server;
+
         public MainWindowViewModel()
         {
             var ui = new MVVM.UserInterface();
+            _server = new Server.Dispatcher();
 
             JObject data = new JObject();
             {
@@ -25,9 +28,9 @@ namespace Pomodoro.MainWindow
                 _data.user = "4b3ca9d7-8d05-4fb6-b9af-57b3316deb37";
                 dynamic pomodoro = new JObject();
                 pomodoro.alias = "Emails";
-                pomodoro.started = DateTime.Now;
-                pomodoro.ended = DateTime.Now + TimeSpan.FromMinutes(25);
-                pomodoro.intended_duration_minutes = 25;
+                pomodoro.started = FormatDateTime(DateTime.Now);
+                pomodoro.ended = FormatDateTime(DateTime.Now + TimeSpan.FromMinutes(25));
+                pomodoro["intended-duration-minutes"] = 25;
                 pomodoro.status = "COMPLETED";
                 _data.pomodoro = pomodoro;
             }
@@ -42,20 +45,17 @@ namespace Pomodoro.MainWindow
 
                 try
                 {
-                    using (var server = new Server.Dispatcher())
-                    {
-                        server.Post(data,
-                            (Task<string> previous) =>
-                            {
-                                var status = previous.Result;
+                    _server.Post(data,
+                        (Task<string> previous) =>
+                        {
+                            var status = previous.Result;
 
-                                ui.Perform(() =>
-                                {
-                                    this.Status = "Updated @" + DateTime.Now.TimeOfDay + ": " + status;
-                                    base.NotifyPropertyChanged("Status");
-                                });
+                            ui.Perform(() =>
+                            {
+                                this.Status = "Updated @" + DateTime.Now.TimeOfDay + ": " + status;
+                                base.NotifyPropertyChanged("Status");
                             });
-                    }
+                        });
                 }
                 catch(Exception e)
                 {
@@ -66,6 +66,11 @@ namespace Pomodoro.MainWindow
                     });
                 }
             });
+        }
+
+        private string FormatDateTime(DateTime data)
+        {
+            return String.Format("{0:dd/MM/yyyy HH:mm:ss}", data);
         }
 
         public ICommand Update { get; private set; }
