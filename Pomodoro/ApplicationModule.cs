@@ -12,6 +12,7 @@ namespace Pomodoro
     {
         public override void Load()
         {
+            Bind<MVVM.IUserInterface>().To<MVVM.UserInterface>();
             Bind<MVVM.MainApplicationWindow>().To<MainWindow.MainWindowView>();
 
 
