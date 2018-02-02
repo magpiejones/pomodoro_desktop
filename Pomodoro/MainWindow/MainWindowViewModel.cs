@@ -29,8 +29,8 @@ namespace Pomodoro.MainWindow
                 dynamic pomodoro = new JObject();
                 pomodoro.alias = "Emails";
                 pomodoro.started = FormatDateTime(DateTime.Now);
-                pomodoro.ended = FormatDateTime(DateTime.Now + TimeSpan.FromMinutes(25));
-                pomodoro["intended-duration-minutes"] = 25;
+                pomodoro["intended-duration"] = TimeSpan.FromMinutes(25).TotalSeconds.ToString();
+                pomodoro["actual-duration"] = TimeSpan.FromMinutes(25).TotalSeconds.ToString();
                 pomodoro.status = "COMPLETED";
                 _data.pomodoro = pomodoro;
             }
