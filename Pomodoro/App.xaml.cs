@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Ninject;
 
 namespace Pomodoro
 {
@@ -14,13 +15,16 @@ namespace Pomodoro
     /// </summary>
     public partial class App : Application
     {
+        private StandardKernel _kernel;
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var viewModel = new Main.MainWindowViewModel();
+            _kernel = new StandardKernel(new[]
+            {
+                new ApplicationModule()
+            });
 
-            var view = new Main.MainWindowView(viewModel);
-            base.MainWindow = view;
-            view.Show();
+            _kernel.Get<MVVM.MainApplicationWindow>().Show();
         }
     }
 }

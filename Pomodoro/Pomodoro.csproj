@@ -60,10 +60,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApplicationModule.cs" />
     <Compile Include="MainWindow\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\DelegateCommand.cs" />
+    <Compile Include="MVVM\MainApplicationWindow.cs" />
     <Compile Include="MVVM\UserInterface.cs" />
     <Compile Include="MVVM\ViewModel.cs" />
     <Compile Include="App.xaml.cs">
@@ -71,6 +73,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Server\Dispatcher.cs" />
+    <Compile Include="Server\IDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow\MainWindowViewModel.cs" />

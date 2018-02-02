@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 
 namespace Pomodoro.Server
 {
-    class Dispatcher : IDisposable
+    class Dispatcher : IDisposable, IDispatcher
     {
         private HttpClient _client;
-        private readonly Uri _uri = new Uri("http://127.0.0.1:5000/api/v1/user/4b3ca9d7-8d05-4fb6-b9af-57b3316deb37/pomodoros/new");
 
         public Dispatcher()
         {
+            this.RootUri = new Uri("http://127.0.0.1:5000/api/v1/user/4b3ca9d7-8d05-4fb6-b9af-57b3316deb37");
+
             _client = new HttpClient();
             _client.Timeout = new TimeSpan(0, 0, 10);
             _client.DefaultRequestHeaders.Accept.Clear();
@@ -35,29 +36,36 @@ namespace Pomodoro.Server
         }
 
 
-        public void Get(Action<Task<string>> continuation)
+        public Uri RootUri { get; private set; }
+
+        public void Get(string route, Action<Task<string>> continuation)
         {
-            var task = new Task<string>(() => ProcessResponse(_client.GetAsync(_uri).Result));
+            var task = new Task<string>(() => ProcessResponse(_client.GetAsync(GetUri(route)).Result));
             task.ContinueWith(continuation);
             task.Start();
         }
 
-        public void Post(JObject data, Action<Task<string>> continuation)
+        public void Post(string route, JObject data, Action<Task<string>> continuation)
         {
             var content = GetContent(data);
 
-            var task = new Task<string>(() => ProcessResponse(_client.PostAsync(_uri, content).Result));
+            var task = new Task<string>(() => ProcessResponse(_client.PostAsync(GetUri(route), content).Result));
             task.ContinueWith(continuation);
             task.Start();
         }
 
-        public void Put(JObject data, Action<Task<string>> continuation)
+        public void Put(string route, JObject data, Action<Task<string>> continuation)
         {
             var content = GetContent(data);
 
-            var task = new Task<string>(() => ProcessResponse(_client.PutAsync(_uri, content).Result));
+            var task = new Task<string>(() => ProcessResponse(_client.PutAsync(GetUri(route), content).Result));
             task.ContinueWith(continuation);
             task.Start();
+        }
+
+        private Uri GetUri(string route)
+        {
+            return new Uri(String.Join("/", RootUri.ToString(), route));
         }
 
 

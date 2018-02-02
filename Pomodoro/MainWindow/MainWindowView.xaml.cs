@@ -17,7 +17,7 @@ namespace Pomodoro.MainWindow
     /// <summary>
     /// Interaction logic for MainWindowView.xaml
     /// </summary>
-    public partial class MainWindowView : Window
+    public partial class MainWindowView : MVVM.MainApplicationWindow
     {
         public MainWindowView(MainWindowViewModel viewModel)
         {

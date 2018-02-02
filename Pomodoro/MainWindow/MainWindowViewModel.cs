@@ -15,12 +15,12 @@ namespace Pomodoro.MainWindow
 {
     public class MainWindowViewModel : ViewModel
     {
-        private readonly Server.Dispatcher _server;
+        private readonly Server.IDispatcher _server;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(Server.IDispatcher server)
         {
             var ui = new MVVM.UserInterface();
-            _server = new Server.Dispatcher();
+            _server = server;
 
             JObject data = new JObject();
             {
@@ -45,7 +45,7 @@ namespace Pomodoro.MainWindow
 
                 try
                 {
-                    _server.Post(data,
+                    _server.Post("/pomodoros/new", data,
                         (Task<string> previous) =>
                         {
                             var status = previous.Result;

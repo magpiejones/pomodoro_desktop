@@ -1,8 +1,9 @@
-﻿<Window x:Class="Pomodoro.MainWindow.MainWindowView"
+﻿<mvvm:MainApplicationWindow x:Class="Pomodoro.MainWindow.MainWindowView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mvvm="clr-namespace:Pomodoro.MVVM"
         xmlns:local="clr-namespace:Pomodoro.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="300">
@@ -15,4 +16,4 @@
         <Label Grid.Row="0" Content="{Binding Path=Status}"/>
         <Button Grid.Row="1" Content="Update" Command="{Binding Path=Update}"/>
     </Grid>
-</Window>
+</mvvm:MainApplicationWindow>
