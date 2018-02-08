@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Pomodoro.MainWindow
 {
-    public class MainWindowViewModel : ViewModel
+     public class MainWindowViewModel : ViewModel
     {
         private readonly Server.IDispatcher _server;
         private readonly MVVM.IUserInterface _ui;
@@ -82,5 +82,7 @@ namespace Pomodoro.MainWindow
 
         public MVVM.ICommand Update { get; private set; }
         public string Status { get; private set; }
+
+        public MVVM.ViewModel CurrentContent { get { return _ui.CurrentPage; } }
     }
 }
