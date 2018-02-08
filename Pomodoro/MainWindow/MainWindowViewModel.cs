@@ -80,7 +80,7 @@ namespace Pomodoro.MainWindow
             return String.Format("{0:dd/MM/yyyy HH:mm:ss}", data);
         }
 
-        public ICommand Update { get; private set; }
+        public MVVM.ICommand Update { get; private set; }
         public string Status { get; private set; }
     }
 }
