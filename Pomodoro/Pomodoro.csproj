@@ -65,6 +65,7 @@
       <DependentUpon>MainWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MVVM\DelegateCommand.cs" />
+    <Compile Include="MVVM\ICommand.cs" />
     <Compile Include="MVVM\IUserInterface.cs" />
     <Compile Include="MVVM\MainApplicationWindow.cs" />
     <Compile Include="MVVM\UserInterface.cs" />

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Pomodoro.MVVM
 {
-    class DelegateCommand : ICommand
+    class DelegateCommand : Pomodoro.MVVM.ICommand
     {
         private static readonly Predicate<object> AlwaysTrue = parameter => true;
 
@@ -54,7 +53,7 @@ namespace Pomodoro.MVVM
             _execute(parameter);
         }
 
-        protected void RaiseCanExecuteChanged()
+        public void RaiseCanExecuteChanged()
         {
             var @event = CanExecuteChanged;
             if (@event != null)
