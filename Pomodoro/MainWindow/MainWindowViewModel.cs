@@ -16,11 +16,12 @@ namespace Pomodoro.MainWindow
     public class MainWindowViewModel : ViewModel
     {
         private readonly Server.IDispatcher _server;
+        private readonly MVVM.IUserInterface _ui;
 
-        public MainWindowViewModel(Server.IDispatcher server)
+        public MainWindowViewModel(Server.IDispatcher server, MVVM.IUserInterface ui)
         {
-            var ui = new MVVM.UserInterface();
             _server = server;
+            _ui = ui;
 
             JObject data = new JObject();
             {
@@ -37,34 +38,40 @@ namespace Pomodoro.MainWindow
 
             this.Update = new DelegateCommand(() =>
             {
-                ui.Perform(() =>
+                _ui.Perform(() =>
                 {
                     this.Status = "Sent @" + DateTime.Now.TimeOfDay + "...";
                     base.NotifyPropertyChanged("Status");
                 });
 
-                try
-                {
-                    _server.Post("/pomodoros/new", data,
-                        (Task<string> previous) =>
-                        {
-                            var status = previous.Result;
-
-                            ui.Perform(() =>
-                            {
-                                this.Status = "Updated @" + DateTime.Now.TimeOfDay + ": " + status;
-                                base.NotifyPropertyChanged("Status");
-                            });
-                        });
-                }
-                catch(Exception e)
-                {
-                    ui.Perform(() =>
+                _server.Post("/pomodoros/new", data,
+                    (Task<string> previous) =>
                     {
-                        this.Status = "Exception: " + e.Message;
-                        base.NotifyPropertyChanged("Status");
+                        if (previous.IsFaulted)
+                        {
+                            HandleError(previous);
+                        }
+
+                        var status = previous.Result;
+
+                        _ui.Perform(() =>
+                        {
+                            this.Status = "Updated @" + DateTime.Now.TimeOfDay + ": " + status;
+                            base.NotifyPropertyChanged("Status");
+                        });
                     });
-                }
+            });
+        }
+
+
+        private void HandleError(Task<string> failedTask)
+        {
+            var exception = failedTask.Exception is AggregateException ? failedTask.Exception.InnerException : failedTask.Exception;
+
+            _ui.Perform(() =>
+            {
+                this.Status = "Exception: " + exception.Message;
+                base.NotifyPropertyChanged("Status");
             });
         }
 

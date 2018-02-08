@@ -7,7 +7,7 @@ using System.Windows.Threading;
 
 namespace Pomodoro.MVVM
 {
-    class UserInterface
+    class UserInterface : IUserInterface
     {
         private readonly Dispatcher _dispatcher;
 
