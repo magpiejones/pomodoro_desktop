@@ -65,7 +65,6 @@ namespace Pomodoro.MainWindow
             _ui.TransitionToPage<Pages.NewPomodoro.Pomodoro>();
         }
 
-
         private void HandleError(Task<string> failedTask)
         {
             var exception = failedTask.Exception is AggregateException ? failedTask.Exception.InnerException : failedTask.Exception;
@@ -85,6 +84,6 @@ namespace Pomodoro.MainWindow
         public MVVM.ICommand Update { get; private set; }
         public string Status { get; private set; }
 
-        public MVVM.ViewModel CurrentContent { get { return _ui.CurrentPage; } }
+        public MVVM.IUserInterface CurrentContent { get { return _ui; } }
     }
 }

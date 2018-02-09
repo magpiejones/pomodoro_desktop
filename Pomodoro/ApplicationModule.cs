@@ -18,7 +18,7 @@ namespace Pomodoro
                 BreakDuration = TimeSpan.FromSeconds(5)
             });
 
-            Bind<MVVM.IUserInterface>().To<MVVM.UserInterface>();
+            Bind<MVVM.IUserInterface>().To<MVVM.UserInterface>().InSingletonScope();
             Bind<MVVM.MainApplicationWindow>().To<MainWindow.MainWindowView>();
 
 

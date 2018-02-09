@@ -74,6 +74,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Pages\NewPomodoro\Break.cs" />
     <Compile Include="Pages\NewPomodoro\Pomodoro.cs" />
     <Compile Include="Server\Dispatcher.cs" />
     <Compile Include="Server\IDispatcher.cs" />

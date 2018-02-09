@@ -8,39 +8,23 @@ using System.Threading.Tasks;
 
 namespace Pomodoro.Pages.NewPomodoro
 {
-    public class Pomodoro : MVVM.DisposableViewModel
+    public class Break : MVVM.ViewModel
     {
         private readonly IUserInterface _ui;
         private readonly System.Timers.Timer _timer;
+
+        private readonly DateTime _startedAt;
         private readonly TimeSpan _duration;
 
-        private bool _inProgress = false;
-        private DateTime _startedAt;
-
-        public Pomodoro(IUserInterface ui, ISettings settings)
+        public Break(MVVM.IUserInterface ui, ISettings settings)
         {
             _ui = ui;
+            _startedAt = DateTime.UtcNow;
+            _duration = settings.BreakDuration;
 
             _timer = new System.Timers.Timer(interval: TimeSpan.FromSeconds(1.0 / 24).TotalMilliseconds);
             _timer.Elapsed += (sender, args) => _ui.Perform(Update);
-
-            _duration = settings.PomodoroDuration;
-
-            this.Begin = new DelegateCommand(
-                _ => !_inProgress,
-                _ =>
-                {
-                    _inProgress = true;
-                    this.Begin.RaiseCanExecuteChanged();
-
-                    _startedAt = DateTime.UtcNow;
-                    _timer.Start();
-                });
-        }
-
-        protected override void DisposeOfManagedResources()
-        {
-            _timer?.Dispose();
+            _timer.Start();
         }
 
         private void Update()
@@ -51,11 +35,7 @@ namespace Pomodoro.Pages.NewPomodoro
             if (progress >= 1.0)
             {
                 _timer.Stop();
-
-                _inProgress = false;
-                this.Begin.RaiseCanExecuteChanged();
-
-                _ui.TransitionToPage<Break>();
+                _ui.TransitionToPage<Pomodoro>();
             }
 
             this.Progress = progress;
@@ -64,9 +44,6 @@ namespace Pomodoro.Pages.NewPomodoro
             this.ProgressDisplayText = actualDuration.ToString();
             NotifyPropertyChanged("ProgressDisplayText");
         }
-
-        public string Name { get; set; }
-        public ICommand Begin { get; private set; }
 
         public double Progress { get; private set; }
         public string ProgressDisplayText { get; private set; }
