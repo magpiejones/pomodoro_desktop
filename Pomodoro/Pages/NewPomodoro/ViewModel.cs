@@ -59,7 +59,7 @@ namespace Pomodoro.Pages.NewPomodoro
             this.Progress = progress;
             NotifyPropertyChanged("Progress");
 
-            this.ProgressDisplayText = Math.Floor(progress * 100);
+            this.ProgressDisplayText = actualDuration.ToString();
             NotifyPropertyChanged("ProgressDisplayText");
         }
 
@@ -67,6 +67,6 @@ namespace Pomodoro.Pages.NewPomodoro
         public ICommand Begin { get; private set; }
 
         public double Progress { get; private set; }
-        public double ProgressDisplayText { get; private set; }
+        public string ProgressDisplayText { get; private set; }
     }
 }
