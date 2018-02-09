@@ -1,4 +1,5 @@
 ﻿using Pomodoro.MVVM;
+using Pomodoro.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +12,19 @@ namespace Pomodoro.Pages.NewPomodoro
     {
         private readonly IUserInterface _ui;
         private readonly System.Timers.Timer _timer;
-        private readonly TimeSpan _duration = TimeSpan.FromSeconds(20);
+        private readonly TimeSpan _duration;
 
         private bool _inProgress = false;
         private DateTime _startedAt;
 
-        public ViewModel(IUserInterface ui)
+        public ViewModel(IUserInterface ui, ISettings settings)
         {
             _ui = ui;
 
             _timer = new System.Timers.Timer(interval: TimeSpan.FromSeconds(1.0 / 24).TotalMilliseconds);
             _timer.Elapsed += (sender, args) => _ui.Perform(Update);
+
+            _duration = settings.PomodoroDuration;
 
             this.Begin = new DelegateCommand(
                 _ => !_inProgress,

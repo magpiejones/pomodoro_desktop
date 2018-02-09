@@ -12,6 +12,12 @@ namespace Pomodoro
     {
         public override void Load()
         {
+            Bind<Settings.ISettings>().ToConstant(new Settings.Settings
+            {
+                PomodoroDuration = TimeSpan.FromSeconds(20),
+                BreakDuration = TimeSpan.FromSeconds(5)
+            });
+
             Bind<MVVM.IUserInterface>().To<MVVM.UserInterface>();
             Bind<MVVM.MainApplicationWindow>().To<MainWindow.MainWindowView>();
 

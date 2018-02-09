@@ -77,6 +77,8 @@
     <Compile Include="Pages\NewPomodoro\ViewModel.cs" />
     <Compile Include="Server\Dispatcher.cs" />
     <Compile Include="Server\IDispatcher.cs" />
+    <Compile Include="Settings\ISettings.cs" />
+    <Compile Include="Settings\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow\MainWindowViewModel.cs" />
