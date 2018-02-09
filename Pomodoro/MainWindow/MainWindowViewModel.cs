@@ -61,6 +61,8 @@ namespace Pomodoro.MainWindow
                         });
                     });
             });
+
+            _ui.TransitionToPage<Pages.NewPomodoro.ViewModel>();
         }
 
 

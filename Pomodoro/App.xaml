@@ -2,8 +2,37 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Pomodoro"
+             xmlns:new_pom="clr-namespace:Pomodoro.Pages.NewPomodoro"
              Startup="Application_Startup">
     <Application.Resources>
-         
+
+        <DataTemplate DataType="{x:Type new_pom:ViewModel}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Row="0" Grid.Column="0" Content="Name"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Name}"/>
+
+                <Label Grid.Row="1" Grid.Column="0" Content="Duration (minutes)"/>
+                <TextBox Grid.Row="1" Grid.Column="1" />
+                
+                <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Begin" Command="{Binding Path=Begin}"/>
+                
+                <ProgressBar Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Minimum="0" Maximum="1" Value="{Binding Path=Progress, Mode=OneWay}"/>
+                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding Path=ProgressPercent}"/>
+
+            </Grid>
+        </DataTemplate>
+        
     </Application.Resources>
 </Application>
