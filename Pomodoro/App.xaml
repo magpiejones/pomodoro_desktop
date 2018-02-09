@@ -10,7 +10,14 @@
         <DataTemplate DataType="{x:Type mvvm:UserInterface}">
             <ContentPresenter Content="{Binding Path=CurrentPage}"/>
         </DataTemplate>
-        
+
+        <DataTemplate DataType="{x:Type mvvm:ProgressTimer}">
+            <Grid>
+                <ProgressBar Minimum="0" Maximum="1" Value="{Binding Path=Progress, Mode=OneWay}"/>
+                <Label HorizontalAlignment="Center" Content="{Binding Path=ProgressDisplayText}"/>
+            </Grid>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type new_pom:Pomodoro}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -32,18 +39,13 @@
                 <TextBox Grid.Row="1" Grid.Column="1" />
                 
                 <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Begin" Command="{Binding Path=Begin}"/>
-                
-                <ProgressBar Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Minimum="0" Maximum="1" Value="{Binding Path=Progress, Mode=OneWay}"/>
-                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding Path=ProgressDisplayText}"/>
 
+                <ContentPresenter Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding Path=Progress}"/>
             </Grid>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type new_pom:Break}">
-            <Grid>
-                <ProgressBar Minimum="0" Maximum="1" Value="{Binding Path=Progress, Mode=OneWay}"/>
-                <Label HorizontalAlignment="Center" Content="{Binding Path=ProgressDisplayText}"/>
-            </Grid>
+            <ContentPresenter Content="{Binding Path=Progress}"/>
         </DataTemplate>
 
     </Application.Resources>

@@ -68,6 +68,7 @@
     <Compile Include="MVVM\ICommand.cs" />
     <Compile Include="MVVM\IUserInterface.cs" />
     <Compile Include="MVVM\MainApplicationWindow.cs" />
+    <Compile Include="MVVM\ProgressTimer.cs" />
     <Compile Include="MVVM\Timer.cs" />
     <Compile Include="MVVM\UserInterface.cs" />
     <Compile Include="MVVM\ViewModel.cs" />
