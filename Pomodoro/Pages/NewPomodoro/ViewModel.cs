@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Pomodoro.Pages.NewPomodoro
 {
-    public class ViewModel : MVVM.ViewModel
+    public class ViewModel : MVVM.DisposableViewModel
     {
         private readonly IUserInterface _ui;
         private readonly TimeSpan _duration = TimeSpan.FromSeconds(20);
@@ -29,6 +29,11 @@ namespace Pomodoro.Pages.NewPomodoro
                     _startedAt = DateTime.UtcNow;
                     _timer.Start();
                 });
+        }
+
+        protected override void DisposeOfManagedResources()
+        {
+            _timer?.Dispose();
         }
 
         private void Update()

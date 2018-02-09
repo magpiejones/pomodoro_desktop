@@ -26,6 +26,7 @@ namespace Pomodoro.MVVM
 
         public void TransitionToPage<T>() where T : ViewModel
         {
+            (this.CurrentPage as IDisposable)?.Dispose();
             this.CurrentPage = _kernel.Get<T>();
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CurrentPage"));

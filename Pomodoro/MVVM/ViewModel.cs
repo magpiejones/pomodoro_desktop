@@ -20,4 +20,14 @@ namespace Pomodoro.MVVM
             }
         }
     }
+
+    public abstract class DisposableViewModel : ViewModel, IDisposable
+    {
+        public void Dispose()
+        {
+            DisposeOfManagedResources();
+        }
+
+        protected abstract void DisposeOfManagedResources();
+    }
 }
