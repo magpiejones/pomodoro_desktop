@@ -38,7 +38,7 @@ namespace Pomodoro.Pages.NewPomodoro
 
         private void Update()
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             var actualDuration = now - _startedAt;
             var progress = (actualDuration.TotalMilliseconds / _duration.TotalMilliseconds);
             if (progress >= 1.0)
