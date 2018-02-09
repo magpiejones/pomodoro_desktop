@@ -14,6 +14,8 @@ namespace Pomodoro.Pages.NewPomodoro
 
         public Pomodoro(IUserInterface ui, ISettings settings)
         {
+            Duration = settings.PomodoroDuration.ToString();
+
             Begin = new DelegateCommand(
                 canExecute: _ => !_inProgress,
                 execute: _ =>
@@ -40,6 +42,8 @@ namespace Pomodoro.Pages.NewPomodoro
         }
 
         public string Name { get; set; }
+        public string Duration { get; private set; }
+
         public ICommand Begin { get; private set; }
         public ProgressTimer Progress { get; private set; }
     }
