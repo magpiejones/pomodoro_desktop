@@ -10,16 +10,16 @@ namespace Pomodoro.Pages.NewPomodoro
     public class ViewModel : MVVM.DisposableViewModel
     {
         private readonly IUserInterface _ui;
+        private readonly System.Timers.Timer _timer;
         private readonly TimeSpan _duration = TimeSpan.FromSeconds(20);
 
-        private System.Timers.Timer _timer;
         private DateTime _startedAt;
 
         public ViewModel(IUserInterface ui)
         {
             _ui = ui;
 
-            _timer = new System.Timers.Timer(50);
+            _timer = new System.Timers.Timer(interval: TimeSpan.FromSeconds(1.0 / 24).TotalMilliseconds);
             _timer.Elapsed += (sender, args) => _ui.Perform(Update);
 
             this.Begin = new DelegateCommand(
