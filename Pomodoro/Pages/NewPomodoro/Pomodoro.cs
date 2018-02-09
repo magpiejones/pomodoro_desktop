@@ -11,7 +11,7 @@ namespace Pomodoro.Pages.NewPomodoro
     public class Pomodoro : MVVM.DisposableViewModel
     {
         private readonly IUserInterface _ui;
-        private readonly System.Timers.Timer _timer;
+        private readonly Timer _timer;
         private readonly TimeSpan _duration;
 
         private bool _inProgress = false;
@@ -21,8 +21,7 @@ namespace Pomodoro.Pages.NewPomodoro
         {
             _ui = ui;
 
-            _timer = new System.Timers.Timer(interval: TimeSpan.FromSeconds(1.0 / 24).TotalMilliseconds);
-            _timer.Elapsed += (sender, args) => _ui.Perform(Update);
+            _timer = new Timer(updateInterval: TimeSpan.FromSeconds(1.0 / 24), onUpdate: (TimeSpan elapsed) => _ui.Perform(() => Update(elapsed)));
 
             _duration = settings.PomodoroDuration;
 
@@ -43,11 +42,9 @@ namespace Pomodoro.Pages.NewPomodoro
             _timer?.Dispose();
         }
 
-        private void Update()
+        private void Update(TimeSpan elapsed)
         {
-            var now = DateTime.UtcNow;
-            var actualDuration = now - _startedAt;
-            var progress = (actualDuration.TotalMilliseconds / _duration.TotalMilliseconds);
+            var progress = (elapsed.TotalMilliseconds / _duration.TotalMilliseconds);
             if (progress >= 1.0)
             {
                 _timer.Stop();
@@ -61,7 +58,7 @@ namespace Pomodoro.Pages.NewPomodoro
             this.Progress = progress;
             NotifyPropertyChanged("Progress");
 
-            this.ProgressDisplayText = actualDuration.ToString();
+            this.ProgressDisplayText = elapsed.ToString();
             NotifyPropertyChanged("ProgressDisplayText");
         }
 

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Pomodoro.Pages.NewPomodoro
 {
-    public class Break : MVVM.ViewModel
+    public class Break : MVVM.DisposableViewModel
     {
         private readonly IUserInterface _ui;
-        private readonly System.Timers.Timer _timer;
+        private readonly Timer _timer;
 
         private readonly DateTime _startedAt;
         private readonly TimeSpan _duration;
@@ -22,16 +22,18 @@ namespace Pomodoro.Pages.NewPomodoro
             _startedAt = DateTime.UtcNow;
             _duration = settings.BreakDuration;
 
-            _timer = new System.Timers.Timer(interval: TimeSpan.FromSeconds(1.0 / 24).TotalMilliseconds);
-            _timer.Elapsed += (sender, args) => _ui.Perform(Update);
+            _timer = new Timer(updateInterval: TimeSpan.FromSeconds(1.0 / 24), onUpdate: (TimeSpan elapsed) => _ui.Perform(() => Update(elapsed)));
             _timer.Start();
         }
 
-        private void Update()
+        protected override void DisposeOfManagedResources()
         {
-            var now = DateTime.UtcNow;
-            var actualDuration = now - _startedAt;
-            var progress = (actualDuration.TotalMilliseconds / _duration.TotalMilliseconds);
+            _timer?.Dispose();
+        }
+
+        private void Update(TimeSpan elapsed)
+        {
+            var progress = (elapsed.TotalMilliseconds / _duration.TotalMilliseconds);
             if (progress >= 1.0)
             {
                 _timer.Stop();
@@ -41,7 +43,7 @@ namespace Pomodoro.Pages.NewPomodoro
             this.Progress = progress;
             NotifyPropertyChanged("Progress");
 
-            this.ProgressDisplayText = actualDuration.ToString();
+            this.ProgressDisplayText = elapsed.ToString();
             NotifyPropertyChanged("ProgressDisplayText");
         }
 
