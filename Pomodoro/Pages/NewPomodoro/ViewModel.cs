@@ -49,14 +49,14 @@ namespace Pomodoro.Pages.NewPomodoro
             this.Progress = progress;
             NotifyPropertyChanged("Progress");
 
-            this.ProgressPercent = Math.Floor(progress * 100);
-            NotifyPropertyChanged("ProgressPercent");
+            this.ProgressDisplayText = Math.Floor(progress * 100);
+            NotifyPropertyChanged("ProgressDisplayText");
         }
 
         public string Name { get; set; }
         public ICommand Begin { get; private set; }
 
         public double Progress { get; private set; }
-        public double ProgressPercent { get; private set; }
+        public double ProgressDisplayText { get; private set; }
     }
 }

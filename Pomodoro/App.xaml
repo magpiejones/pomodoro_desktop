@@ -29,7 +29,7 @@
                 <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Begin" Command="{Binding Path=Begin}"/>
                 
                 <ProgressBar Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Minimum="0" Maximum="1" Value="{Binding Path=Progress, Mode=OneWay}"/>
-                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding Path=ProgressPercent}"/>
+                <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Content="{Binding Path=ProgressDisplayText}"/>
 
             </Grid>
         </DataTemplate>
