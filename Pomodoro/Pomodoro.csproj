@@ -74,7 +74,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pages\NewPomodoro\ViewModel.cs" />
+    <Compile Include="Pages\NewPomodoro\Pomodoro.cs" />
     <Compile Include="Server\Dispatcher.cs" />
     <Compile Include="Server\IDispatcher.cs" />
     <Compile Include="Settings\ISettings.cs" />

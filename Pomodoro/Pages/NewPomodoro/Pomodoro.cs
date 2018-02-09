@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Pomodoro.Pages.NewPomodoro
 {
-    public class ViewModel : MVVM.DisposableViewModel
+    public class Pomodoro : MVVM.DisposableViewModel
     {
         private readonly IUserInterface _ui;
         private readonly System.Timers.Timer _timer;
@@ -17,7 +17,7 @@ namespace Pomodoro.Pages.NewPomodoro
         private bool _inProgress = false;
         private DateTime _startedAt;
 
-        public ViewModel(IUserInterface ui, ISettings settings)
+        public Pomodoro(IUserInterface ui, ISettings settings)
         {
             _ui = ui;
 
