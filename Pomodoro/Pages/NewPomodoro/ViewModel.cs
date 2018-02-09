@@ -13,6 +13,7 @@ namespace Pomodoro.Pages.NewPomodoro
         private readonly System.Timers.Timer _timer;
         private readonly TimeSpan _duration = TimeSpan.FromSeconds(20);
 
+        private bool _inProgress = false;
         private DateTime _startedAt;
 
         public ViewModel(IUserInterface ui)
@@ -23,9 +24,12 @@ namespace Pomodoro.Pages.NewPomodoro
             _timer.Elapsed += (sender, args) => _ui.Perform(Update);
 
             this.Begin = new DelegateCommand(
-                _ => true,
+                _ => !_inProgress,
                 _ =>
                 {
+                    _inProgress = true;
+                    this.Begin.RaiseCanExecuteChanged();
+
                     _startedAt = DateTime.UtcNow;
                     _timer.Start();
                 });
@@ -44,6 +48,9 @@ namespace Pomodoro.Pages.NewPomodoro
             if (progress >= 1.0)
             {
                 _timer.Stop();
+
+                _inProgress = false;
+                this.Begin.RaiseCanExecuteChanged();
             }
 
             this.Progress = progress;
